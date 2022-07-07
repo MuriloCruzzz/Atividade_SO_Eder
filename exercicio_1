@@ -1,0 +1,29 @@
+# Atividade_SO_Eder
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int cont = 1;
+int cont1 = 0;
+
+void ctrl_c(int sig) {
+    cont1++;
+}
+
+void ctrl_z(int sig) {
+    printf("Foi recebido sinal de encerramento do programa: %d vezes \n", cont);
+    cont++;
+    if (cont == 5)
+        exit(0);
+}
+
+int main() {
+    signal(SIGINT, ctrl_c);
+    signal(SIGTSTP, ctrl_z);
+    printf("Programa so encerrará apos 4 tentativas do sinal SIGTSTP \n");
+    while (1) {
+        printf("Em execucao\n");
+        sleep(1);
+    }
+}
