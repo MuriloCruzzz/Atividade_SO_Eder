@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int cont = 0;
+int quant = 0;
+int cont2 = 0;
+
+void meualarme(int sig){
+        printf("===Infelizmente não respondeu em 5 segundo \n programa FECHADO");
+        exit(0);
+}
+void ctrl_c(int sig) {
+        if (sig == SIGINT);
+        cont++;
+        cont2++;
+
+        if (cont2 >=5){
+        char c;
+        signal(SIGALRM, meualarme);
+        alarm(5);
+        printf ("Ja tiveram 5 sinais de SIGINT ==== Deseja sair (s/n)?");
+        scanf("%c", &c);
+        if (c == 's' || c == 'S'){
+        exit(0);
+}
+        if (c != 'n' && c != 'N'){
+        printf("Caracter não identificado\n");
+        exit(0);
+}
+        else{
+        cont2 = 0;
+        alarm(0);
+}
+
+}
+}
+void ctrl_z(int sig) {
+        if (sig == SIGTSTP)
+        printf("\n O Sinal SIGINT foi usado  %d vezes \n", cont);
+}
+
+int main() {
+   signal(SIGINT, ctrl_c);
+   signal(SIGTSTP, ctrl_z);
+   printf("Principal em loop infinito (CRTL + c para acabar)\n");
+   while (1) {
+   signal(SIGINT, ctrl_c); 
+   signal(SIGTSTP, ctrl_z);
+   printf("Principal em loop infinito (CRTL + c para acabar)\n");
+   while (1) {
+       printf("Em execucao \n");
+       sleep(1);
+}
+        if (cont2 >= 5){
+        printf("Deseja sair [S/N]");
+}
+        else{
+        cont2 = 0;
+}
+}
+
